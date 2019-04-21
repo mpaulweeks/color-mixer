@@ -5,66 +5,70 @@ const canvasElm = document.getElementById('canvas');
 const ctx = canvasElm.getContext('2d');
 
 const calibrate = () => {
-  let newHeight = document.body.clientHeight;
-  let newWidth = document.body.clientWidth;
-  if (newHeight !== canvasElm.height || newWidth !== canvasElm.width) {
-    canvasElm.height = newHeight;
-    canvasElm.width = newWidth;
+  let height = document.body.clientHeight;
+  let width = document.body.clientWidth;
+  if (height !== canvasElm.height || width !== canvasElm.width) {
+    canvasElm.height = height;
+    canvasElm.width = width;
   }
-}
-
-const calcRayPoint = (origin, angle, length) => {
-  return {
-    x: origin.x + (Math.cos(angle) * length),
-    y: origin.y + (Math.sin(angle) * length),
-  };
+  state.combined.origin = {x: width/2, y: height};
+  state.combined.radius = width/6;
+  state.lights.forEach((l, i) => {
+    l.origin = {
+      x: (width/6) * (1 + (i*2)),
+      y: height/6,
+    };
+    l.radius = height/18;
+    l.calibrateButtons();
+  });
 }
 
 const draw = () => {
   const s = state; // shorthand
 
-  const combined = s.lights.filter(l => l.isCombined)[0];
-  const otherColors = s.lights.filter(l => !l.isCombined).map(l => l.color);
-  combined.color = Color.combine(otherColors);
-
   ctx.fillStyle = 'black';
   ctx.fillRect(0, 0, canvasElm.width, canvasElm.height);
 
+  // draw light rays
   s.lights.forEach(light => {
-    const grad = ctx.createRadialGradient(
-      light.origin.x, light.origin.y, 0,
-      light.origin.x, light.origin.y, light.depth
-    );
-    grad.addColorStop(0, light.color.toHex());
-    grad.addColorStop(1, light.color.toHex());
-
-    ctx.fillStyle = grad;
+    ctx.fillStyle = light.color.toHex();
     ctx.beginPath();
-    const leftPoint = calcRayPoint(light.origin, light.angle - light.window, light.depth);
-    const rightPoint = calcRayPoint(light.origin, light.angle + light.window, light.depth);
     ctx.moveTo(light.origin.x, light.origin.y);
-    [leftPoint, rightPoint].forEach(p => {
-      ctx.lineTo(p.x, p.y);
-    });
+    ctx.lineTo(s.combined.origin.x - s.combined.radius, s.combined.origin.y);
+    ctx.lineTo(s.combined.origin.x + s.combined.radius, s.combined.origin.y);
     ctx.closePath();
     ctx.fill();
   });
 
+  // draw light rings / labels
   ctx.lineWidth = 5;
   s.lights.forEach(light => {
-    if (light !== s.selected){
-      ctx.strokeStyle = light === s.hover ? 'white' : light.color.toHexOriginal();
-      ctx.beginPath();
-      ctx.arc(light.origin.x, light.origin.y, s.mouseRadius/2, 0, 2*Math.PI, false);
-      ctx.closePath();
-      ctx.stroke();
-    }
+    ctx.strokeStyle = light === s.hover ? 'white' : light.color.toHexOriginal();
+    ctx.beginPath();
+    ctx.arc(light.origin.x, light.origin.y, light.radius, 0, 2*Math.PI, false);
+    ctx.closePath();
+    ctx.stroke();
   });
-  ctx.strokeStyle = s.selected ? s.selected.color.toHexOriginal() : 'white';
+
+  // draw light buttons
+  s.buttons.forEach(button => {
+    ctx.strokeStyle = button.selected ? 'black' : 'white';
+    ctx.fillStyle = button.selected ? 'white' : 'black';
+    ctx.beginPath();
+    ctx.arc(button.origin.x, button.origin.y, button.radius, 0, 2*Math.PI, false);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = ctx.strokeStyle;
+    ctx.fillText(button.label, button.origin.x, button.origin.y);
+  });
+
+  // draw combined
+  ctx.fillStyle = s.combined.color.toHex();
   ctx.beginPath();
-  ctx.arc(s.mouse.x, s.mouse.y, s.mouseRadius, 0, 2*Math.PI, false);
+  ctx.arc(s.combined.origin.x, s.combined.origin.y, s.combined.radius, 0, 2*Math.PI, false);
   ctx.closePath();
-  ctx.stroke();
+  ctx.fill();
 }
 
 export const canvas = {

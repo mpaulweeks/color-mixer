@@ -1,31 +1,16 @@
-import { Light } from './model.js';
+import { Light } from './light.js';
 
+const lights = ['#FF0000', '#00FF00', '#0000FF'].map(hex => new Light(hex));
+const buttons = lights.reduce((arr, l) => {
+  l.buttons.forEach(b => {
+    arr.push(b);
+  });
+  return arr;
+}, []);
 export const state = {
-  lights: [
-    {
-      origin: {x: 100, y: 300},
-      color: '#FF0000',
-    },
-    {
-      origin: {x: 200, y: 300},
-      color: '#00FF00',
-    },
-    {
-      origin: {x: 300, y: 300},
-      color: '#0000FF',
-    },
-    {
-      isCombined: true,
-      origin: {x: 400, y: 300},
-      color: '#000000',
-    },
-  ].map(data => new Light({
-    ...data,
-    angle: Math.PI * 0.5,
-    window: Math.PI / 6,
-    depth: document.body.clientWidth/2,
-    color: data.color,
-  })),
+  lights: lights,
+  buttons: buttons,
+  combined: new Light('#000000'),
   selected: undefined,
   hover: undefined,
   mouse: {
@@ -33,19 +18,4 @@ export const state = {
     y: 0,
   },
   mouseRadius: 50,
-  clone: () => {
-    if (state.selected){
-      state.lights.push(state.selected.clone());
-    }
-  },
-  delete: () => {
-    if (state.selected){
-      const index = state.lights.indexOf(state.selected);
-      state.lights.splice(index, 1);
-      if (state.hover === state.selected){
-        state.hover = undefined;
-      }
-      state.selected = undefined;
-    }
-  }
 };

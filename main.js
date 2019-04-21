@@ -1,128 +1,45 @@
+import { Color } from './color.js';
 import { state } from './state.js';
 import { canvas } from './canvas.js';
 
-const getClosestLight = (state) => {
-  let nearestLight, nearestDistance;
-  state.lights.forEach(light => {
-    const distance = Math.sqrt(
-      Math.pow(state.mouse.x - light.origin.x, 2) +
-      Math.pow(state.mouse.y - light.origin.y, 2)
-    );
-    if (nearestDistance === undefined || distance < nearestDistance){
-      nearestLight = light;
-      nearestDistance = distance;
-    }
-  });
-  if (nearestDistance < state.mouseRadius) {
-    return nearestLight;
-  }
-  return null;
-};
-
-const toggleHeader = () => {
-  document.getElementById('header').classList.toggle('hidden');
-};
-
-const actions = [
-  {
-    code: 'ArrowLeft',
-    callback: () => state.selected && state.selected.rotateCounterClockwise(),
-  },
-  {
-    code: 'ArrowRight',
-    callback: () => state.selected && state.selected.rotateClockwise(),
-  },
-  {
-    code: 'ArrowUp',
-    callback: () => state.selected && state.selected.angleOpen(),
-  },
-  {
-    code: 'ArrowDown',
-    callback: () => state.selected && state.selected.angleClose(),
-  },
-  {
-    code: 'Equal',
-    callback: () => state.selected && state.selected.grow(),
-  },
-  {
-    code: 'Minus',
-    callback: () => state.selected && state.selected.shrink(),
-  },
-  {
-    code: 'Period',
-    callback: () => state.selected && state.selected.color.brighten(),
-  },
-  {
-    code: 'Comma',
-    callback: () => state.selected && state.selected.color.darken(),
-  },
-  {
-    code: 'Slash',
-    callback: () => state.selected && state.selected.color.cycleRainbow(),
-  },
-].reduce((obj, action) => {
-  obj[action.code] = {
-    ...action,
-    interval: undefined,
-  };
-  return obj;
-}, {});
-
-window.addEventListener('keydown', e => {
-  console.log(e.code);
-  if (e.code === 'Escape') {
-    toggleHeader();
-  }
-  if (e.code === 'KeyC') {
-    state.clone();
-    canvas.draw();
-  }
-  if (e.code === 'KeyD') {
-    state.delete();
-    canvas.draw();
-  }
-  const action = actions[e.code];
-  if (action && !action.interval){
-    action.interval = setInterval(() => {
-      action.callback();
-      canvas.draw();
-    }, 1);
-  }
-});
-window.addEventListener('keyup', e => {
-  const action = actions[e.code];
-  if (action) {
-    clearInterval(action.interval);
-    action.interval = undefined;
-  }
-});
-
-window.addEventListener('mousedown', e => {
-  if (state.selected){
-    state.selected = undefined;
-  } else if (state.hover){
-    state.selected = state.hover;
-    state.selected.origin = state.mouse;
-  }
+const render = () => {
+  const otherColors = state.lights.map(l => l.color);
+  state.combined.color = Color.combine(otherColors);
   canvas.draw();
+}
+
+let mouseDown = undefined;
+window.addEventListener('mousedown', e => {
+  mouseDown = setInterval(() => {
+    state.hover && state.hover.callback();
+    render();
+  }, 1);
 });
+window.addEventListener('mouseup', e => {
+  clearInterval(mouseDown);
+  mouseDown = undefined;
+});
+
 window.addEventListener('mousemove', e => {
   const newPoint = {
     x: e.clientX,
     y: e.clientY,
   };
-  if (state.selected) {
-    state.selected.origin = {...newPoint};
-  }
-  state.hover = getClosestLight(state);
+  state.buttons.forEach(b => {
+    b.selected = b.contains(newPoint);
+  });
   state.mouse = {...newPoint};
-  canvas.draw();
+  state.hover = state.buttons.filter(b => b.selected)[0];
+  render();
 });
 
+const toggleHeader = () => {
+  document.getElementById('header').classList.toggle('hidden');
+};
 document.getElementById('header-close').addEventListener('click', () => {
   toggleHeader();
 });
 
 // on page load
 canvas.calibrate();
-canvas.draw();
+render();
