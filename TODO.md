@@ -1,5 +1,9 @@
 # todo
 
+- stage with mixing 3 colors
+- goal light always starts as purple
+- if toggled to YCM, divide color vals by 50% before summing?
+
 - all the keyboard commands (with instructions in header)
   - E to hide/show circles
   - +/- to alter "hue" (cycle RGB according to displaced sin wave)

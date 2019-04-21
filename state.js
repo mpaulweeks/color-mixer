@@ -15,23 +15,16 @@ export const state = {
       color: '#0000FF',
     },
     {
+      isCombined: true,
       origin: {x: 400, y: 300},
-      color: '#FFFF00',
-    },
-    {
-      origin: {x: 500, y: 300},
-      color: '#00FFFF',
-    },
-    {
-      origin: {x: 600, y: 300},
-      color: '#FF00FF',
+      color: '#000000',
     },
   ].map(data => new Light({
     ...data,
     angle: Math.PI * 0.5,
     window: Math.PI / 6,
     depth: document.body.clientWidth/2,
-    color: data.color + 'A0',
+    color: data.color,
   })),
   selected: undefined,
   hover: undefined,

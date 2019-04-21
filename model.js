@@ -7,6 +7,7 @@ export class Light {
     this.angle = data.angle;
     this.window = data.window;
     this.depth = data.depth;
+    this.isCombined = data.isCombined;
   }
   clone() {
     return new Light({

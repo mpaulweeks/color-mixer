@@ -1,3 +1,4 @@
+import { Color } from './color.js';
 import { state } from './state.js';
 
 const canvasElm = document.getElementById('canvas');
@@ -21,6 +22,10 @@ const calcRayPoint = (origin, angle, length) => {
 
 const draw = () => {
   const s = state; // shorthand
+
+  const combined = s.lights.filter(l => l.isCombined)[0];
+  const otherColors = s.lights.filter(l => !l.isCombined).map(l => l.color);
+  combined.color = Color.combine(otherColors);
 
   ctx.fillStyle = 'black';
   ctx.fillRect(0, 0, canvasElm.width, canvasElm.height);
@@ -48,14 +53,14 @@ const draw = () => {
   ctx.lineWidth = 5;
   s.lights.forEach(light => {
     if (light !== s.selected){
-      ctx.strokeStyle = light === s.hover ? 'white' : light.color.toHexPure();
+      ctx.strokeStyle = light === s.hover ? 'white' : light.color.toHexOriginal();
       ctx.beginPath();
       ctx.arc(light.origin.x, light.origin.y, s.mouseRadius/2, 0, 2*Math.PI, false);
       ctx.closePath();
       ctx.stroke();
     }
   });
-  ctx.strokeStyle = s.selected ? s.selected.color.toHexPure() : 'white';
+  ctx.strokeStyle = s.selected ? s.selected.color.toHexOriginal() : 'white';
   ctx.beginPath();
   ctx.arc(s.mouse.x, s.mouse.y, s.mouseRadius, 0, 2*Math.PI, false);
   ctx.closePath();
