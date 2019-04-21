@@ -8,12 +8,57 @@
   <script type="module" src="main.js"></script>
 
   <style type="text/css">
-    head, body, canvas {
+    head, body, #container {
       margin: 0px;
       width: 100%;
       height: 100%;
     }
+    body {
+      background-color: black;
+      color: white;
+    }
+    #container {
+      z-index: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: stretch;
+      flex-wrap: nowrap;
+    }
+    .row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+    .center {
+      justify-content: center;
+    }
+    .button {
+      padding: 1em;
+      border: 3px solid white;
+      border-radius: 3px;
+    }
+    .button:hover {
+      background-color: white;
+      color: black;
+    }
+    .source {
+      width: 2em;
+      height: 2em;
+      border: 3px solid white;
+      border-radius: 2em;
+      margin: 0.5em;
+    }
+    #combined {
+      width: 10em;
+      height: 5em;
+      border: 3px solid white;
+      border-radius: 10em;
+    }
     header {
+      z-index: 1;
       position: absolute;
       top: 0%;
       left: 0%;
@@ -37,9 +82,23 @@
     .hidden {
       display: none;
     }
+    #svg-container {
+      z-index: -1;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+    }
+    svg {
+      width: 100%;
+      height: 100%;
+    }
   </style>
 </head>
 <body>
+  <div id="container">
+  </div>
   <header id="header" class="hidden">
     click on light anchor to grab it and move it around
     <br/>
@@ -54,5 +113,7 @@
     <br/>
     <button id="header-close"> close this header </button>
   </header>
-  <canvas id="canvas"></canvas>
+  <div id="svg-container">
+    <svg id="svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg>
+  </div>
 </body>

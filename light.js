@@ -2,25 +2,25 @@ import { Button } from './button.js';
 import { Color } from './color.js';
 
 export class Light {
-  constructor(color) {
-    this.color = Color.fromHex(color);
-    this.origin = {x: 0, y: 0};
-    this.radius = 0;
-    this.buttonDarker = new Button('dark', () => this.color.darken());
-    this.buttonLighter = new Button('light', () => this.color.brighten());
+  constructor(data) {
+    this.color = Color.fromHex(data.hex);
+    this.elm = document.getElementById(data.id);
+
+    const buttonRow = this.elm.children[0];
+    const sourceRow = this.elm.children[1];
+
+    this.buttonDarker = new Button(buttonRow.children[0], 'dark', () => this.color.darken());
+    this.buttonLighter = new Button(buttonRow.children[1], 'light', () => this.color.brighten());
     this.buttons = [this.buttonDarker, this.buttonLighter];
+
+    const sourceElm = sourceRow.children[0];
+    sourceElm.style.backgroundColor = this.color.toHexOriginal();
   }
-  calibrateButtons() {
-    this.buttonDarker.origin = {
-      x: this.origin.x - this.radius*1.5,
-      y: this.origin.y - this.radius*1.5,
-    };
-    this.buttonLighter.origin = {
-      x: this.origin.x + this.radius*1.5,
-      y: this.origin.y - this.radius*1.5,
-    };
-    this.buttons.forEach(b => {
-      b.radius = this.radius;
-    });
+}
+
+export class Combined {
+  constructor(data) {
+    this.elm = document.getElementById(data.id);
+    this.color = Color.fromHex('#000000');
   }
 }

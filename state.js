@@ -1,6 +1,39 @@
-import { Light } from './light.js';
+import { Light, Combined } from './light.js';
 
-const lights = ['#FF0000', '#00FF00', '#0000FF'].map(hex => new Light(hex));
+const container = document.getElementById('container');
+container.innerHTML = `
+  <div class="row">
+    ${['r','g','b'].map(c => `
+      <div id="${c}">
+        <div class="row">
+          <div class="button"></div>
+          <div class="button"></div>
+        </div>
+        <div class="row center">
+          <div class="source"></div>
+        </div>
+      </div>
+    `).join('\n')}
+  </div>
+  <div class="row center">
+    <div id="combined"></div>
+  </div>
+`;
+
+const lights = [
+  {
+    hex: '#FF0000',
+    id: 'r',
+  },
+  {
+    hex: '#00FF00',
+    id: 'g',
+  },
+  {
+    hex: '#0000FF',
+    id: 'b',
+  },
+].map(data => new Light(data));
 const buttons = lights.reduce((arr, l) => {
   l.buttons.forEach(b => {
     arr.push(b);
@@ -10,7 +43,9 @@ const buttons = lights.reduce((arr, l) => {
 export const state = {
   lights: lights,
   buttons: buttons,
-  combined: new Light('#000000'),
+  combined: new Combined({
+    id: 'combined',
+  }),
   selected: undefined,
   hover: undefined,
   mouse: {
