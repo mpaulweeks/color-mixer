@@ -1,0 +1,58 @@
+<head>
+  <title> lightshow </title>
+
+  <script type="module" src="color.js"></script>
+  <script type="module" src="model.js"></script>
+  <script type="module" src="state.js"></script>
+  <script type="module" src="canvas.js"></script>
+  <script type="module" src="main.js"></script>
+
+  <style type="text/css">
+    head, body, canvas {
+      margin: 0px;
+      width: 100%;
+      height: 100%;
+    }
+    header {
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      padding: 50px 50px;
+      box-sizing: border-box;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      border-bottom: 1px solid white;
+
+      color: white;
+      background: #00000080;
+    }
+    button {
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header id="header">
+    click on light anchor to grab it and move it around
+    <br/>
+    click again to release
+    <br/>
+    when grabbing a light, use arrow keys to manipulate
+    <br/>
+    use +/- to grow/shrink the cone of light
+    <br/>
+    use C to clone, and D to delete
+    <br/>
+    <br/>
+    <button id="header-close"> close this header </button>
+  </header>
+  <canvas id="canvas"></canvas>
+</body>
