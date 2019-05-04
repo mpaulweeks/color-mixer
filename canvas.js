@@ -10,16 +10,18 @@ const addPolygon = light => {
 const updatePolygon = (light, index) => {
   const containerRect = document.getElementById('container').getBoundingClientRect();
   const sourceRect = light.sourceElm.getBoundingClientRect();
-  const pipeWidth = (containerRect.right - sourceRect.right) / 3;
+  console.log(containerRect, sourceRect);
+  const pipeWidth = containerRect.width / 8;
+  const pipeMargin = 4;
   const pipeRight = containerRect.right - (index * pipeWidth);
   const pipeLeft = pipeRight - pipeWidth;
   const points = [
-    [sourceRect.right, sourceRect.top],
-    [pipeRight, sourceRect.top],
-    [pipeRight, containerRect.bottom],
-    [pipeLeft, containerRect.bottom],
-    [pipeLeft, sourceRect.bottom],
-    [sourceRect.right, sourceRect.bottom],
+    [sourceRect.right - pipeMargin, sourceRect.top + pipeMargin],
+    [pipeRight - pipeMargin, sourceRect.top + pipeMargin],
+    [pipeRight - pipeMargin, containerRect.bottom - pipeMargin],
+    [pipeLeft + pipeMargin, containerRect.bottom - pipeMargin],
+    [pipeLeft + pipeMargin, sourceRect.bottom - pipeMargin],
+    [sourceRect.right - pipeMargin, sourceRect.bottom - pipeMargin],
   ].map(p => `${p[0]},${p[1]}`).join(' ');
   light.polygonElm.setAttribute('points', points);
   light.polygonElm.setAttribute('fill', light.color.toHex());

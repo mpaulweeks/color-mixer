@@ -1,5 +1,6 @@
 <head>
   <title> lightshow </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
   <script type="module" src="color.js"></script>
   <script type="module" src="light.js"></script>
@@ -8,6 +9,9 @@
   <script type="module" src="main.js"></script>
 
   <style type="text/css">
+    html {
+      font-size: 16px;
+    }
     head, body, #container {
       margin: 0px;
       width: 100%;
@@ -31,12 +35,26 @@
       align-items: stretch;
       flex-wrap: nowrap;
 
-      border: 2px solid white;
+      /* border: 2px solid white; */
+      box-sizing: border-box;
 
       max-width: 400px;
       max-height: 600px;
     }
+    header {
+      font-size: 2rem;
+      padding: 0.5em 0px;
+      text-align: center;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
     .row {
+      margin: 4px;
+
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
@@ -47,16 +65,19 @@
       justify-content: center;
     }
     .label {
-      margin: 0px 1em;
-      font-size: 1.5em;
-      width: 3em;
+      margin: 0px 1rem;
+      font-size: 1.5rem;
+      width: 4rem;
       text-align: center;
       border-bottom: 2px solid white;
     }
     .button {
       cursor: pointer;
-      width: 3em;
-      height: 3em;
+      font-family: monospace;
+      width: 2rem;
+      height: 2rem;
+      font-size: 1rem;
+      font-weight: bold;
       border: 2px solid white;
 
       display: flex;
@@ -66,19 +87,20 @@
       flex-wrap: nowrap;
     }
     .button.left {
-      border-radius: 1em 0em 0em 1em;
+      border-radius: 1em 0em 0em 1rem;
     }
     .button.right {
-      border-radius: 0em 1em 1em 0em;
+      border-radius: 0em 1em 1em 0rem;
     }
     .button:hover {
       background-color: white;
       color: black;
     }
     .source {
-      width: 3em;
-      height: 3em;
+      width: 3rem;
+      height: 3rem;
       border: 2px solid white;
+      background-color: black;
 
       display: flex;
       flex-direction: column;
@@ -92,8 +114,8 @@
     }
     #combinedHex {
       font-family: monospace;
-      font-size: 2em;
-      padding: 1em;
+      font-size: 2rem;
+      padding: 1rem;
     }
     #combined {
       width: 100%;
@@ -119,12 +141,14 @@
       height: 100%;
     }
     polygon {
+      stroke: white;
+      stroke-width: 2px;
     }
   </style>
 </head>
 <body>
   <div id="container"></div>
   <div id="svg-container">
-    <svg id="svg" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"></svg>
+    <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
   </div>
 </body>

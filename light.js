@@ -6,8 +6,8 @@ export class Light {
     this.color = Color.fromHex(data.hex);
     this.elm = document.getElementById(data.id);
 
-    this.buttonDarker = new Button(this.elm.children[0], '▼', () => this.color.darken());
-    this.buttonLighter = new Button(this.elm.children[1], '▲', () => this.color.brighten());
+    this.buttonDarker = new Button(this.elm.children[0], '↓', () => this.color.darken());
+    this.buttonLighter = new Button(this.elm.children[1], '↑', () => this.color.brighten());
     this.buttons = [this.buttonDarker, this.buttonLighter];
 
     const labelElm = this.elm.children[2];

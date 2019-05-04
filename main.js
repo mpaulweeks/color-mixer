@@ -19,6 +19,7 @@ window.addEventListener('mouseup', e => {
   clearInterval(mouseDown);
   mouseDown = undefined;
 });
+window.addEventListener('resize', render);
 
 state.buttons.forEach(b => {
   b.elm.addEventListener('mouseenter', e => {
