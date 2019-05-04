@@ -31,12 +31,6 @@ state.buttons.forEach(b => {
   });
 });
 
-const toggleHeader = () => {
-  document.getElementById('header').classList.toggle('hidden');
-};
-document.getElementById('header-close').addEventListener('click', () => {
-  toggleHeader();
-});
-
 // on page load
+state.lights.forEach(light => canvas.addPolygon(light));
 render();
