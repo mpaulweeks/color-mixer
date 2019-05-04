@@ -10,7 +10,6 @@ const addPolygon = light => {
 const updatePolygon = (light, index) => {
   const containerRect = document.getElementById('container').getBoundingClientRect();
   const sourceRect = light.sourceElm.getBoundingClientRect();
-  console.log(containerRect, sourceRect);
   const pipeWidth = containerRect.width / 8;
   const pipeMargin = 4;
   const pipeRight = containerRect.right - (index * pipeWidth);

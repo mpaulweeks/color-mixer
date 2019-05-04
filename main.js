@@ -7,31 +7,33 @@ const render = () => {
   state.combined.color = Color.combine(otherColors);
   canvas.draw(state);
 }
-
-let mouseDown = undefined;
-window.addEventListener('mousedown', e => {
-  mouseDown = setInterval(() => {
-    state.hover && state.hover.callback();
-    render();
-  }, 1);
-});
-window.addEventListener('mouseup', e => {
-  clearInterval(mouseDown);
-  mouseDown = undefined;
-});
 window.addEventListener('resize', render);
 
-state.buttons.forEach(b => {
-  b.elm.addEventListener('mouseenter', e => {
-    state.hover = b;
-  });
-  b.elm.addEventListener('mouseleave', e => {
-    if (state.hover === b) {
-      state.hover = undefined;
-    }
+let goal = {
+  complete: true,
+  light: null,
+  percent: null,
+};
+
+state.lights.forEach(l => {
+  l.sourceElm.addEventListener('mousedown', e => {
+    const rect = l.sourceElm.getBoundingClientRect();
+    const percent = 1 - ((e.clientY - rect.top) / rect.height);
+    goal = {
+      complete: false,
+      light: l,
+      percent: percent,
+    };
   });
 });
 
 // on page load
 state.lights.forEach(light => canvas.addPolygon(light));
 render();
+
+setInterval(() => {
+  if (!goal.complete) {
+    goal.complete = goal.light.color.progressTowards(goal.percent);
+    render();
+  }
+}, 1);

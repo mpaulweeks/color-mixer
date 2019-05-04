@@ -43,7 +43,18 @@
     }
     header {
       font-size: 2rem;
-      padding: 0.5em 0px;
+      padding-top: 0.5em;
+      text-align: center;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+    aside {
+      font-size: 0.9rem;
+      padding-bottom: 0.5em;
       text-align: center;
 
       display: flex;
@@ -71,34 +82,10 @@
       text-align: center;
       border-bottom: 2px solid white;
     }
-    .button {
-      cursor: pointer;
-      font-family: monospace;
-      width: 2rem;
-      height: 2rem;
-      font-size: 1rem;
-      font-weight: bold;
-      border: 2px solid white;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: nowrap;
-    }
-    .button.left {
-      border-radius: 1em 0em 0em 1rem;
-    }
-    .button.right {
-      border-radius: 0em 1em 1em 0rem;
-    }
-    .button:hover {
-      background-color: white;
-      color: black;
-    }
     .source {
-      width: 3rem;
-      height: 3rem;
+      cursor: pointer;
+      width: 30%;
+      height: 15%;
       border: 2px solid white;
       background-color: black;
 
@@ -118,9 +105,8 @@
       padding: 1rem;
     }
     #combined {
-      width: 100%;
-      height: 30%;
-      border-top: 0px;
+      height: 15%;
+      border: 2px solid grey;
     }
     button {
       cursor: pointer;
@@ -141,13 +127,31 @@
       height: 100%;
     }
     polygon {
-      stroke: white;
+      stroke: grey;
       stroke-width: 2px;
     }
   </style>
 </head>
 <body>
-  <div id="container"></div>
+  <div id="container">
+    <div>
+      <header>
+        Color Mixer
+      </header>
+      <aside>
+        click in the white boxes to change the color levels
+      </aside>
+      <div id="colors">
+        <!-- filled via js -->
+      </div>
+    </div>
+    <div>
+      <div class="row">
+        <div id="combinedHex"></div>
+      </div>
+      <div id="combined"></div>
+    </div>
+  </div>
   <div id="svg-container">
     <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
   </div>

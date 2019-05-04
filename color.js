@@ -12,6 +12,17 @@ export class Color {
   darken() {
     this.brightness = Math.max(this.brightness - 0.003, 0);
   }
+  progressTowards(percent) {
+    const current = this.brightness;
+    const delta = Math.abs(current - percent);
+    const epsilon = 0.003;
+    if (delta < epsilon) {
+      this.brightness = percent;
+      return true;
+    }
+    const diff = epsilon * (current > percent ? -1 : 1);
+    this.brightness += diff;
+  }
 
   static normalizeRGB(val) {
     return Math.min(255, Math.max(0, Math.floor(val)));
