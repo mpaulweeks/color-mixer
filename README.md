@@ -1,5 +1,5 @@
-# lightmix
+# color-mixer
 
-https://mpaulweeks.github.io/lightmix/
+https://mpaulweeks.github.io/color-mixer/
 
 visual tool / game for mixing RBG
