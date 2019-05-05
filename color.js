@@ -6,6 +6,12 @@ export class Color {
     this.brightness = parts.brightness;
   }
 
+  calcDistance(other) {
+    return Math.abs(this.r - other.r)
+      + Math.abs(this.g - other.g)
+      + Math.abs(this.b - other.b);
+  }
+
   brighten() {
     return this.brightness = Math.min(this.brightness + 0.003, 1.0);
   }

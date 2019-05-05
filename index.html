@@ -53,7 +53,7 @@
       flex-wrap: nowrap;
     }
     aside {
-      font-size: 0.9rem;
+      font-size: 1rem;
       padding-bottom: 0.5em;
       text-align: center;
 
@@ -64,7 +64,7 @@
       flex-wrap: nowrap;
     }
     .row {
-      margin: 4px;
+      margin: 4px 0px;
 
       display: flex;
       flex-direction: row;
@@ -74,6 +74,12 @@
     }
     .center {
       justify-content: center;
+    }
+    .right {
+      justify-content: flex-end;
+    }
+    .separate {
+      justify-content: space-between;
     }
     .label {
       margin: 0px 1rem;
@@ -99,14 +105,23 @@
       width: 100%;
       height: 100%;
     }
-    #combinedHex {
+    #message {
       font-family: monospace;
-      font-size: 2rem;
+      font-size: 1.5rem;
       padding: 1rem;
     }
-    #combined {
+    .vat {
       height: 15%;
+      width: 50%;
       border: 2px solid grey;
+      margin-right: 0.5em;
+    }
+    .vat:last-child {
+      height: 15%;
+      width: 50%;
+      border: 2px solid grey;
+      margin-right: 0px;
+      margin-left: 0.5em;
     }
     button {
       cursor: pointer;
@@ -139,17 +154,23 @@
         Color Mixer
       </header>
       <aside>
-        click in the white boxes to change the color levels
+        Click the white boxes to change the color levels
       </aside>
       <div id="colors">
         <!-- filled via js -->
       </div>
     </div>
     <div>
-      <div class="row">
-        <div id="combinedHex"></div>
+      <div class="row left">
+        Try to match this color:
       </div>
-      <div id="combined"></div>
+      <div class="row separate">
+        <div class="vat" id="goal"></div>
+        <div class="vat" id="combined"></div>
+      </div>
+      <div class="row right">
+        <div id="message"></div>
+      </div>
     </div>
   </div>
   <div id="svg-container">

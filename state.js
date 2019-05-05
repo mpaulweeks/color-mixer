@@ -1,4 +1,4 @@
-import { Light, Combined } from './light.js';
+import { Light, Combined, Goal } from './light.js';
 
 document.getElementById('colors').innerHTML += ['r','g','b'].map(c => `
   <div id="${c}" class="row">
@@ -28,11 +28,7 @@ export const state = {
   combined: new Combined({
     id: 'combined',
   }),
-  selected: undefined,
-  hover: undefined,
-  mouse: {
-    x: 0,
-    y: 0,
-  },
-  mouseRadius: 50,
+  goal: new Goal({
+    id: 'goal',
+  }),
 };
