@@ -31,7 +31,7 @@ let goalPercent = {
 state.lights.forEach(l => {
   l.sourceElm.addEventListener('mousedown', e => {
     const rect = l.sourceElm.getBoundingClientRect();
-    const percent = 1 - ((e.clientY - rect.top) / rect.height);
+    const percent = ((e.clientX - rect.left) / rect.width);
     goalPercent = {
       complete: false,
       light: l,

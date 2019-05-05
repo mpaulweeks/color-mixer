@@ -3,24 +3,19 @@ import { Color } from './color.js';
 export class Light {
   constructor(data) {
     this.color = Color.fromHex(data.hex);
-    // this.color.brightness = Math.random();
+    this.color.brightness = 0.0;
     this.elm = document.getElementById(data.id);
 
-    const labelElm = this.elm.children[0];
-    labelElm.innerText = {
-      r: 'Red',
-      g: 'Green',
-      b: 'Blue',
-    }[data.id];
-    labelElm.style.borderBottomColor = this.color.toHexOriginal();
+    this.percentElm = this.elm.querySelector('.percent');
 
-    this.sourceElm = this.elm.children[1];
+    this.sourceElm = this.elm.querySelector('.source');
     this.sourceFillElm = this.sourceElm.children[0];
     this.sourceFillElm.style.backgroundColor = this.color.toHexOriginal();
   }
 
   updateFill() {
-    this.sourceFillElm.style.height = (this.color.brightness * 100) + '%';
+    this.percentElm.innerText = (100 * this.color.brightness).toFixed(0) + '%';
+    this.sourceFillElm.style.width = ((1 - this.color.brightness) * 100) + '%';
   }
 }
 
